@@ -1,0 +1,9 @@
+
+# Ignorar archivos grandes innecesarios
+*.exe
+*.dll
+
+# Ignorar otros archivos temporales o de entorno
+.DS_Store
+*.log
+.env

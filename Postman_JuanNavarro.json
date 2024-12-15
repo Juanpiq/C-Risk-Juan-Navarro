@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "671ad4ef-39bd-4743-b2ef-7c9d36404c5d",
+		"name": "pruebas #1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31525998"
+	},
+	"item": [
+		{
+			"name": "drilldowns=Nation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"El codigo del estatus es 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El tiempo de respuesta es menor que 800 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);});\r",
+							"\r",
+							"pm.test(\"Content-Type esta presente en el encabezado\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							" \r",
+							"pm.test(\"Valida que en el primer campo del vector data, la variable 'Nation' no es null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Nation).is.not.null;\r",
+							"});\r",
+							"pm.test(\"Valida que la variable Nation sea igual a 'United States'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Nation).to.eql(\"United States\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valida que la variable Nation contenga el string 'United'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Nation).to.contain(\"United\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valida que la variable Nation sea tipo string\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Nation).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"valida la igualdad de la  variable 'year' del objeto filtrado contra la variable global utilizada en los parámetros\", function () {\r",
+							"    \r",
+							"pm.expect(pm.response.json().year).to.eql(pm.environment.get(\"ano_actual\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Que el 'Id Year' contenga el string '20'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Year).to.include(\"20\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Que la población sea mayor de 300,000,000\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0].Population).to.be.above(300000000);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"pm.globals.set('ano_actual', moment().format((\"YYYY\")) -2);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://datausa.io/api/data?drilldowns=Nation&measures=Population&year={{ano_actual}}",
+					"protocol": "https",
+					"host": [
+						"datausa",
+						"io"
+					],
+					"path": [
+						"api",
+						"data"
+					],
+					"query": [
+						{
+							"key": "drilldowns",
+							"value": "Nation"
+						},
+						{
+							"key": "measures",
+							"value": "Population"
+						},
+						{
+							"key": "year",
+							"value": "{{ano_actual}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
